@@ -134,4 +134,36 @@ public function show($id)
 
         return view('member.artworks.submissions', compact('submissions'));
     }
+
+
+//     public function like($id)
+// {
+//     $artwork = Artwork::findOrFail($id);
+
+//     $artwork->likes()->firstOrCreate([
+//         'user_id' => auth()->id()
+//     ]);
+
+//     return back()->with('success', 'Berhasil menyukai karya');
+// }
+
+// public function unlike($id)
+// {
+//     $artwork = Artwork::findOrFail($id);
+
+//     $artwork->likes()->where('user_id', auth()->id())->delete();
+
+//     return back()->with('success', 'Berhasil menghapus like');
+// }
+
+public function like($id)
+{
+    $artwork = Artwork::findOrFail($id);
+
+    $artwork->likes_count = ($artwork->likes_count ?? 0) + 1;
+    $artwork->save();
+
+    return back()->with('success', 'Berhasil menambahkan like!');
+}
+
 }

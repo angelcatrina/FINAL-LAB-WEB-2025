@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ChallengeSubmissionController extends Controller
 {
-    // Daftar challenge aktif
+    
     public function index()
     {
         $activeChallenges = Challenge::where('end_date', '>=', now())
@@ -20,7 +20,7 @@ class ChallengeSubmissionController extends Controller
         return view('challenges.index', compact('activeChallenges'));
     }
 
-    // Form submit karya
+
     public function create(Challenge $challenge)
     {
         if (now()->gt($challenge->end_date)) {
@@ -35,31 +35,31 @@ class ChallengeSubmissionController extends Controller
         return view('challenges.submit', compact('challenge', 'availableArtworks'));
     }
 
-    // Simpan submission karya
+   
     public function store(Request $request, Challenge $challenge)
     {
         if (now()->gt($challenge->end_date)) {
             return redirect()->back()->withErrors('Challenge sudah berakhir.');
         }
 
-        // Validasi input
+       
         $request->validate([
             'artwork_id' => 'required|exists:artworks,id',
         ]);
 
         $artwork = Artwork::findOrFail($request->artwork_id);
 
-        // Pastikan karya milik user
+      
         if ($artwork->user_id !== Auth::id()) {
             abort(403, 'Karya bukan milik Anda.');
         }
 
-        // Cek duplikasi submission
+       
         if ($challenge->submissions()->where('artwork_id', $artwork->id)->exists()) {
             return redirect()->back()->withErrors('Karya ini sudah di-submit.');
         }
 
-        // Simpan submission
+       
         $challenge->submissions()->create([
             'artwork_id' => $artwork->id,
             'user_id' => Auth::id(),
@@ -69,10 +69,10 @@ class ChallengeSubmissionController extends Controller
                          ->with('success', 'Karya berhasil di-submit ke challenge!');
     }
 
-    // Lihat detail challenge + galeri + pemenang
+   
     public function show(Challenge $challenge)
     {
-        $challenge->load(['submissions.artwork.user']); // eager load
+        $challenge->load(['submissions.artwork.user']);
         $submissions = $challenge->submissions;
         $winners = $submissions->filter(fn($s) => $s->is_winner ?? false);
 

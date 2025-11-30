@@ -39,7 +39,7 @@ class ModerationController extends Controller
 
     public function detail(Report $report)
 {
-    // Load hubungan data untuk ditampilkan
+    
     $report->load('reporter', 'artwork', 'comment');
 
     return view('admin.moderation.detail', compact('report'));

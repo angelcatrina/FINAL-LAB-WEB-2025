@@ -7,20 +7,18 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
-    // LIST semua kategori
+   
     public function index()
     {
         $categories = Category::all();
         return view('admin.categories.index', compact('categories'));
     }
 
-    // FORM create
     public function create()
     {
         return view('admin.categories.create');
     }
 
-    // SIMPAN kategori baru
     public function store(Request $request)
     {
         $request->validate([
@@ -34,13 +32,11 @@ class CategoryController extends Controller
                          ->with('success', 'Kategori berhasil ditambahkan!');
     }
 
-    // FORM edit
     public function edit(Category $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    // UPDATE kategori
     public function update(Request $request, Category $category)
     {
         $request->validate([
@@ -54,7 +50,6 @@ class CategoryController extends Controller
                          ->with('success', 'Kategori berhasil diperbarui!');
     }
 
-    // HAPUS kategori
     public function destroy(Category $category)
     {
         $category->delete();

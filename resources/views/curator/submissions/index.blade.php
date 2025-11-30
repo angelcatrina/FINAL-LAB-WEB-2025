@@ -8,20 +8,20 @@
     <div class="py-10 bg-gray-100 min-h-screen flex justify-center">
         <div class="max-w-5xl w-full px-4">
 
-            {{-- Pesan sukses --}}
+           
             @if(session('success'))
                 <div class="mb-6 p-3 bg-green-100 text-green-800 rounded-lg shadow border border-green-200 text-center font-sans">
                     {{ session('success') }}
                 </div>
             @endif
 
-            {{-- Group submissions berdasarkan challenge --}}
+            
             @forelse($submissions->groupBy('challenge_id') as $challengeId => $challengeSubmissions)
                 @php
                     $challenge = $challengeSubmissions->first()->challenge;
                 @endphp
 
-                <!-- CARD CHALLENGE DIPUSATKAN -->
+               
                 <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-8 mb-12 mx-auto">
 
                     {{-- Judul challenge --}}
@@ -102,7 +102,7 @@
                                 @csrf
                                 <button type="submit"
                                         class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg shadow font-sans">
-                                    📢 Umumkan Pemenang
+                                     Umumkan Pemenang
                                 </button>
                             </form>
                         @else
@@ -113,7 +113,7 @@
                     </div>
 
                 </div>
-                <!-- END CARD -->
+               
 
             @empty
                 <p class="text-center text-gray-500 mt-20 text-lg font-sans">

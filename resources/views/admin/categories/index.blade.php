@@ -8,7 +8,7 @@
 
             <div class="bg-white shadow-md border border-gray-300 rounded-xl p-6">
 
-                <!-- Header -->
+             
                 <div class="flex justify-between items-center mb-6">
                     <h3 class="text-lg font-semibold text-gray-800">Daftar Kategori</h3>
                     <a href="{{ route('admin.categories.create') }}" 
@@ -17,14 +17,14 @@
                     </a>
                 </div>
 
-                <!-- Flash message -->
+           
                 @if(session('success'))
                     <div class="mb-4 p-3 bg-green-100 border-l-4 border-green-500 text-green-800 rounded shadow">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                <!-- Table -->
+         
                 @if($categories->count())
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-gray-50 divide-y divide-gray-200 rounded-lg shadow">

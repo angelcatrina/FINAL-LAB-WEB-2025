@@ -12,16 +12,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         
-        // CHALLENGES – semua challenge
         $challenges = Challenge::latest()->get();
-
-        // Search
         $search = $request->search;
-
-        // Filter by Category
         $category = $request->category;
 
-        // Artworks Query
         $artworks = Artwork::query()
             ->when($search, function ($q) use ($search) {
                 $q->where('title', 'like', "%$search%")
@@ -35,19 +29,12 @@ class HomeController extends Controller
             ->latest()
             ->paginate(20);
 
-        // Featured artworks (random 6)
         $featured = Artwork::inRandomOrder()->take(6)->get();
-
-        // Popular
         $popular = Artwork::latest()->take(10)->get();
-
-        // Newest
         $newest = Artwork::latest()->take(10)->get();
-
-        // Categories
         $categories = Category::all();
 
-        // Active challenges (yang sedang berjalan)
+      
         $activeChallenges = Challenge::where('start_date', '<=', now())
             ->where('end_date', '>=', now())
             ->latest()

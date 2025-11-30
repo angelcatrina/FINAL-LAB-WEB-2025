@@ -13,7 +13,7 @@
                 <form method="POST" action="{{ route('admin.categories.store') }}">
                     @csrf
 
-                    <!-- Nama Kategori -->
+                   
                     <div class="mb-6">
                         <label for="name" class="block text-gray-700 font-semibold mb-2">Nama Kategori</label>
                         <input id="name" name="name" type="text" required
@@ -23,7 +23,7 @@
                         @enderror
                     </div>
 
-                    <!-- Tombol aksi -->
+                    
                     <div class="flex justify-center gap-4 mt-6">
                         <button type="submit" 
                                 class="px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">

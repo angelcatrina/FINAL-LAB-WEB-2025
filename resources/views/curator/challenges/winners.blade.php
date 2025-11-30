@@ -30,20 +30,20 @@
                         @if($winner)
                             <div class="rounded-2xl shadow-lg overflow-hidden transform hover:scale-[1.02] transition duration-300 bg-gradient-to-b {{ $colors[$pos] }}">
                                 
-                                <!-- Badge Juara -->
+                               
                                 <div class="text-center py-3 bg-black/20 backdrop-blur-md">
                                     <span class="text-2xl font-bold text-gray-900 tracking-wide">
                                         🥇 Juara {{ $pos }}
                                     </span>
                                 </div>
 
-                                <!-- Foto Artwork -->
+                                
                                 <img 
                                     src="{{ asset('storage/' . $winner->artwork->file_path) }}" 
                                     class="w-full h-48 object-cover"
                                 >
 
-                                <!-- Detail -->
+                                
                                 <div class="p-4 text-center">
                                     <p class="font-bold text-lg text-gray-900">
                                         {{ $winner->artwork->title }}
@@ -64,7 +64,7 @@
                 </p>
             @endif
 
-            <!-- Tombol Kembali -->
+           
             <div class="mt-8 text-center">
                 <a href="{{ route('curator.challenges.index') }}"
                    class="px-5 py-2 bg-gray-700 text-white rounded-lg shadow hover:bg-gray-800 transition">

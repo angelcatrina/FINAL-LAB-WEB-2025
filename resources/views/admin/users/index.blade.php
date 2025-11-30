@@ -3,10 +3,10 @@
         <h2 class="font-semibold text-2xl text-gray-900">Manajemen Pengguna</h2>
     </x-slot>
 
-    <!-- Wrapper utama: abu-abu terang -->
+    
     <div class="min-h-screen py-12 bg-gradient-to-br from-gray-200 via-white to-gray-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Card untuk tabel -->
+         
             <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
                 <div class="overflow-x-auto">
 
@@ -39,13 +39,13 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap flex flex-wrap gap-2">
 
-                                        {{-- TOMBOL DETAIL --}}
+                                       
                                         <a href="{{ route('admin.users.show', $u) }}" 
                                            class="px-3 py-1 bg-gray-300 text-gray-900 rounded hover:bg-gray-400 transition-colors">
                                             Detail
                                         </a>
 
-                                        {{-- TOMBOL SETUJUI --}}
+                                       
                                         @if($u->role === 'curator' && $u->status === 'pending')
                                             <form method="POST" action="{{ route('admin.users.approve', $u) }}" class="inline">
                                                 @csrf @method('PATCH')
@@ -55,7 +55,7 @@
                                             </form>
                                         @endif
 
-                                        {{-- TOMBOL HAPUS --}}
+                                        
                                         @if($u->id !== auth()->id() && $u->role !== 'admin')
                                             <form method="POST" action="{{ route('admin.users.destroy', $u) }}" class="inline">
                                                 @csrf @method('DELETE')

@@ -155,8 +155,28 @@ public function selectWinners(Challenge $challenge)
                          ->with('success', 'Pemenang berhasil diumumkan!');
     }
 
+    public function announceWinners($challengeId)
+{
 
-    
+    $challenge = \App\Models\Challenge::with('submissions')->findOrFail($challengeId);
+
+    $winners = $challenge->submissions
+                ->where('is_winner', true)
+                ->sortBy('winner_position');
+
+    if ($winners->count() === 0) {
+        return back()->with('error', 'Tidak ada pemenang yang dipilih.');
+    }
+
+    $challenge->update([
+        'is_announced' => true,
+    ]);
+
+    return redirect()
+        ->route('curator.submissions.index')
+        ->with('success', 'Pemenang berhasil diumumkan!');
+}
+
 
 }
 

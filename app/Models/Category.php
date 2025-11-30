@@ -16,10 +16,9 @@ class Category extends Model
     $totalArtworks = Artwork::count();
     $totalReports = Report::count();
 
-    // Artwork per kategori
+    
     $artworksPerCategory = Category::withCount('artworks')->get();
-    // 'artworks_count' akan otomatis tersedia di setiap kategori
-
+    
     return view('admin.statistics', compact('totalUsers', 'totalArtworks', 'totalReports', 'artworksPerCategory'));
 }
  public function artworks()

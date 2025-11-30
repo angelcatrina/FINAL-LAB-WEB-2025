@@ -18,26 +18,26 @@
                         <div class="flex items-center gap-3">
                             <h1 class="text-2xl font-bold text-gray-800">{{ $user->display_name ?: $user->name }}</h1>
 
-                            @if(auth()->id() !== $user->id)
-                                <div x-data="{
-                                    isFollowing: {{ auth()->user()->isFollowing($user) ? 'true' : 'false' }},
-                                    toggleFollow() {
-                                        fetch(this.isFollowing 
-                                            ? '{{ route('member.unfollow', $user->id) }}'
-                                            : '{{ route('member.follow', $user->id) }}', {
-                                            method: 'POST',
-                                            headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
-                                        }).then(() => { this.isFollowing = !this.isFollowing })
-                                    }
-                                }">
+@if(auth()->check() && auth()->id() !== $user->id)
+    <div x-data="{
+        isFollowing: {{ optional(auth()->user())->isFollowing($user) ? 'true' : 'false' }},
+        toggleFollow() {
+            fetch(this.isFollowing 
+                ? '{{ route('member.unfollow', $user->id) }}'
+                : '{{ route('member.follow', $user->id) }}', {
+                method: 'POST',
+                headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
+            }).then(() => { this.isFollowing = !this.isFollowing })
+        }
+    }">
                                     <button 
-                                        @click="toggleFollow()"
-                                        :class="isFollowing ? 'bg-gray-200 text-gray-700' : 'bg-blue-600 text-white'"
-                                        class="px-3 py-1 rounded hover:opacity-90 text-sm transition">
-                                        <span x-text="isFollowing ? 'Unfollow' : 'Follow'"></span>
-                                    </button>
-                                </div>
-                            @endif
+            @click="toggleFollow()"
+            :class="isFollowing ? 'bg-gray-200 text-gray-700' : 'bg-blue-600 text-white'"
+            class="px-3 py-1 rounded hover:opacity-90 text-sm transition">
+            <span x-text="isFollowing ? 'Unfollow' : 'Follow'"></span>
+        </button>
+    </div>
+@endif
                         </div>
 
                         <!-- Bio -->

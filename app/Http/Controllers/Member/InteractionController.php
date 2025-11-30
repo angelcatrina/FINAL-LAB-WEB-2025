@@ -21,14 +21,20 @@ class InteractionController extends Controller
         return back();
     }
 
-    public function like(Artwork $artwork)
+     public function like(Artwork $artwork)
     {
-        $like = Like::updateOrCreate(
-            ['user_id' => auth()->id(), 'artwork_id' => $artwork->id],
-            ['liked' => true]
-        );
+        $user = auth()->user();
+        $like = $artwork->likes()->where('user_id', $user->id)->first();
 
-        return back();
+        if ($like) {
+            $like->delete();
+            $isLiked = false;
+        } else {
+            $artwork->likes()->create(['user_id' => $user->id]);
+            $isLiked = true;
+        }
+
+        return response()->json(['is_liked' => $isLiked]);
     }
 
     public function comment(Request $request, Artwork $artwork)
@@ -80,5 +86,7 @@ class InteractionController extends Controller
 
     return back()->with('success', 'Artwork berhasil dihapus dari favorit.');
 }
+
+
 
 }

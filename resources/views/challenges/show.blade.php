@@ -4,15 +4,15 @@
 
             <div class="bg-white shadow-lg sm:rounded-xl p-6">
 
-                <!-- Judul Challenge -->
+               
                 <h1 class="text-3xl font-bold text-gray-900 mb-4">{{ $challenge->title }}</h1>
 
-                <!-- Deskripsi -->
+                
                 @if($challenge->description)
                     <p class="mt-2 text-gray-700 text-lg">{{ $challenge->description }}</p>
                 @endif
 
-                <!-- Info Tambahan: Aturan, Hadiah, Deadline -->
+                
                 <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4 text-gray-700">
                     <div class="bg-gray-50 p-4 rounded-lg shadow-sm transform transition-all duration-300 hover:scale-105 hover:shadow-lg">
                         <h2 class="font-semibold text-gray-800 mb-2">Aturan</h2>
@@ -29,7 +29,7 @@
                     </div>
                 </div>
 
-                <!-- Tombol Submit & Kembali -->
+                
                 @auth
                     @if(auth()->user()->role === 'member' && now()->lt($challenge->end_date))
                         <div class="mt-6 flex flex-wrap gap-4">
@@ -45,7 +45,7 @@
                     @endif
                 @endauth
 
-                <!-- Pemenang -->
+               
                 @if($winners->count())
                     <div class="mt-10">
                         <h3 class="text-xl font-bold text-gray-800 mb-4">🏆 Pemenang</h3>
@@ -56,19 +56,19 @@
                                 @endphp
                                 @if($winner)
                                     <div class="relative bg-gray-50 rounded-lg shadow-lg overflow-hidden transform transition-all duration-300 hover:scale-105 hover:shadow-2xl">
-                                        <!-- Badge nomor juara -->
+                                        
                                         <span class="absolute top-3 left-3 bg-yellow-400 text-white font-bold px-3 py-1 rounded-full shadow">
                                             {{ $num }}
                                         </span>
 
-                                        <!-- Foto karya -->
+                                       
                                         <a href="{{ route('artworks.show', $winner->artwork) }}" class="block">
                                             <img src="{{ asset('storage/' . $winner->artwork->file_path) }}" 
                                                  alt="{{ $winner->artwork->title }}"
                                                  class="w-full h-64 object-contain bg-white p-2 rounded">
                                         </a>
 
-                                        <!-- Nama peserta -->
+                                        
                                         <p class="text-center text-gray-800 font-medium py-2">
                                             {{ $winner->artwork->user->name }}
                                         </p>
@@ -79,7 +79,7 @@
                     </div>
                 @endif
 
-                <!-- Galeri Submission -->
+               
                 <div class="mt-10">
                     <h3 class="text-xl font-semibold text-gray-800 mb-4">
                         Karya yang Di-Submit ({{ $submissions->count() }})

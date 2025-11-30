@@ -5,14 +5,14 @@
         </h2>
     </x-slot>
 
-    <!-- Wrapper halaman -->
+    
     <div class="min-h-screen bg-gray-100 py-10">
         <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Card utama -->
+           
             <div class="bg-white shadow-md border border-gray-300 rounded-xl p-8">
 
-                <!-- Avatar center -->
+                
                 <div class="flex justify-center mb-6">
                     @if($user->profile_photo_path)
                         <img src="{{ asset('storage/' . $user->profile_photo_path) }}" 
@@ -27,33 +27,33 @@
                     @endif
                 </div>
 
-                <!-- Judul card -->
+                
                 <h3 class="text-2xl font-semibold text-gray-800 text-center mb-8">
                     Informasi Pengguna
                 </h3>
 
-                <!-- Grid vertikal -->
+               
                 <div class="flex flex-col gap-4">
 
-                    <!-- Name -->
+                   
                     <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <span class="text-sm text-gray-500">Nama</span>
                         <p class="text-lg font-semibold text-gray-800">{{ $user->name }}</p>
                     </div>
 
-                    <!-- Email -->
+                   
                     <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <span class="text-sm text-gray-500">Email</span>
                         <p class="text-lg font-semibold text-gray-800">{{ $user->email }}</p>
                     </div>
 
-                    <!-- Role -->
+                  
                     <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <span class="text-sm text-gray-500">Role</span>
                         <p class="text-lg font-semibold text-gray-800">{{ ucfirst($user->role) }}</p>
                     </div>
 
-                    <!-- Curator Status -->
+                    
                     @if($user->role === 'curator')
                         <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                             <span class="text-sm text-gray-500">Status Kurator</span>
@@ -66,7 +66,7 @@
                         </div>
                     @endif
 
-                    <!-- Joined Date -->
+                    
                     <div class="p-4 bg-gray-50 rounded-lg border border-gray-200">
                         <span class="text-sm text-gray-500">Tanggal Bergabung</span>
                         <p class="text-lg font-semibold text-gray-800">
@@ -76,7 +76,7 @@
 
                 </div>
 
-                <!-- Tombol aksi -->
+               
                 <div class="mt-8 flex justify-center gap-4">
                     <a href="{{ route('admin.users.index') }}"
                         class="px-5 py-2.5 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-200 transition-colors">

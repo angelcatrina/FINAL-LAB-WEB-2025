@@ -61,7 +61,7 @@
                 {{-- Tabs Navigation --}}
                 <div class="mb-8 border-b border-gray-200">
                     <nav class="flex gap-8">
-                        <a href="#" class="pb-4 border-b-2 border-red-600 font-semibold text-gray-900">
+                        <a href="{{ route('member.dashboard') }}"  class="pb-4 border-b-2 border-red-600 font-semibold text-gray-900">
                             Karya Saya
                         </a>
                         <a href="{{ route('member.artworks.submissions') }}" class="pb-4 border-b-2 border-transparent text-gray-600 hover:text-gray-900 font-medium">
@@ -76,7 +76,7 @@
                         @foreach($artworks as $artwork)
                             <div x-data="{ open:false }" class="break-inside-avoid mb-4">
                                 {{-- Kartu karya --}}
-                                <div @click="open = true" class="relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transform transition-all duration-300 cursor-pointer">
+                                <div @click.stop="open = true" class="relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transform transition-all duration-300 cursor-pointer">
                                     <img src="{{ asset('storage/' . $artwork->file_path) }}" alt="{{ $artwork->title }}" class="w-full object-cover">
                                     <div class="p-3">
                                         <p class="text-sm text-gray-800 font-medium line-clamp-2">{{ $artwork->title }}</p>
@@ -85,7 +85,7 @@
                                 </div>
 
                                 {{-- Modal Detail Photo --}}
-                                <div x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
+                                <div x-show="open"@click.stop x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
                                     <div @click.away="open=false" class="bg-white rounded-2xl w-full md:w-4/5 lg:w-3/5 xl:w-1/2 max-h-[95vh] overflow-y-auto relative shadow-2xl">
                                         <button @click="open=false" class="absolute top-4 right-4 z-10 text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition">
                                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -116,16 +116,49 @@
 
                                             {{-- Actions: Like, Save, Report, Edit, Delete --}}
                                             <div class="flex gap-4 items-center border-t border-b py-4 mb-4">
-                                                {{-- Like --}}
-                                                <form action="{{ route('member.dashboard', $artwork->id) }}" method="POST">
-                                                    @csrf
-                                                    <button type="submit" class="flex items-center gap-1 text-red-500 hover:text-red-600 font-semibold">
-                                                        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                                                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                                                        </svg>
-                                                        Like ({{ $artwork->likes_count ?? 0 }})
-                                                    </button>
-                                                </form>
+                               @auth
+@if(auth()->user()->role === 'member')
+    @php
+        $isLiked = $artwork->likes()->where('user_id', auth()->id())->exists();
+    @endphp
+
+    <button onclick="toggleLike({{ $artwork->id }})"
+            id="like-btn-{{ $artwork->id }}"
+            class="px-3 py-1 rounded font-semibold {{ $isLiked ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-700' }}">
+        {{ $isLiked ? 'Unlike' : 'Like' }}
+    </button>
+@endif
+@endauth
+
+<script>
+function toggleLike(artworkId) {
+    const likeBtn = document.getElementById('like-btn-' + artworkId);
+
+    fetch(`/member/artworks/${artworkId}/like`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.is_liked){
+            likeBtn.textContent = 'Unlike';
+            likeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            likeBtn.classList.add('bg-red-100', 'text-red-600');
+        } else {
+            likeBtn.textContent = 'Like';
+            likeBtn.classList.remove('bg-red-100', 'text-red-600');
+            likeBtn.classList.add('bg-gray-200', 'text-gray-700');
+        }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
 
                                                 {{-- Favorite --}}
                                                 <form action="{{ route('member.artworks.favorite', $artwork->id) }}" method="POST">
@@ -178,13 +211,18 @@
                                                             {{ $comment->content }}
                                                         </span>
 
-                                                        @if($comment->user_id === auth()->id() || $artwork->user_id === auth()->id())
-                                                            <form action="{{ route('member.artworks.comment.delete', $comment->id) }}" method="POST" class="ml-4 flex-shrink-0">
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit" class="text-red-500 text-xs hover:text-red-700 transition">Hapus</button>
-                                                            </form>
-                                                        @endif
+                                                        @if(auth()->check() && (
+    auth()->user()->role === 'admin' ||  // Admin bisa hapus semua komentar
+    $comment->user_id === auth()->id() || // Bisa hapus komentar sendiri
+    $artwork->user_id === auth()->id()    // Bisa hapus komentar orang lain di postingannya sendiri
+))
+    <form action="{{ route('member.artworks.comment.delete', $comment->id) }}" method="POST" class="ml-4 flex-shrink-0">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="text-red-500 text-xs hover:text-red-700 transition">Hapus</button>
+    </form>
+@endif
+
                                                     </div>
                                                 @empty
                                                     <p class="text-gray-500 text-center py-4">Belum ada komentar.</p>

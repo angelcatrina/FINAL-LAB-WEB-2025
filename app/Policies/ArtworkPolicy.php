@@ -12,13 +12,11 @@ class ArtworkPolicy
 
     public function update(User $user, Artwork $artwork)
     {
-        // Hanya owner karya yang boleh update
+       
         return $user->id === $artwork->user_id;
     }
-
     public function delete(User $user, Artwork $artwork)
     {
-        // Hanya owner karya yang boleh delete
         return $user->id === $artwork->user_id;
     }
 }

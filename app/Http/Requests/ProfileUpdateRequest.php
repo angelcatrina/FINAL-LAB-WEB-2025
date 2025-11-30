@@ -21,7 +21,7 @@ class ProfileUpdateRequest extends FormRequest
         'name' => ['required', 'string', 'max:255'],
         'display_name' => ['nullable', 'string', 'max:255'],
         'bio' => ['nullable', 'string', 'max:500'],
-        'avatar' => ['nullable', 'image', 'max:2048'], // foto profil
+        'avatar' => ['nullable', 'image', 'max:2048'], 
         'instagram' => ['nullable', 'url', 'max:255'],
         'behance' => ['nullable', 'url', 'max:255'],
         'website' => ['nullable', 'url', 'max:255'],

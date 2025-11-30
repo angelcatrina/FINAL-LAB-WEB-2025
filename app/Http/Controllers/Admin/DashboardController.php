@@ -10,8 +10,8 @@ class DashboardController extends Controller
     
     
 {
-    // menampilkan view admin dashboard
-    return view('admin.dashboard'); // <-- sesuaikan dengan folder dan file Blade
+    
+    return view('admin.dashboard'); 
 }
 public function statistics()
 {

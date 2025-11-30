@@ -8,6 +8,6 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        return view('curator.dashboard'); // atau view lain
+        return view('curator.dashboard'); 
     }
 }

@@ -11,30 +11,22 @@ use Illuminate\Http\Request;
 
 class ArtworkInteractionController extends Controller
 {
-    // LIKE / UNLIKE
-    public function toggleLike($id)
+    public function like(Artwork $artwork)
     {
-        $artwork = Artwork::findOrFail($id);
-        $userId = auth()->id();
+        $user = auth()->user();
+        $like = $artwork->likes()->where('user_id', $user->id)->first();
 
-        $existing = Like::where('user_id', $userId)
-                        ->where('artwork_id', $id)
-                        ->first();
-
-        if ($existing) {
-            $existing->delete(); // UNLIKE
-            return back()->with('success', 'Unlike berhasil.');
+        if ($like) {
+            $like->delete();
+            $isLiked = false;
+        } else {
+            $artwork->likes()->create(['user_id' => $user->id]);
+            $isLiked = true;
         }
 
-        Like::create([
-            'user_id'   => $userId,
-            'artwork_id'=> $id
-        ]);
-
-        return back()->with('success', 'Like berhasil.');
+        return response()->json(['is_liked' => $isLiked]);
     }
 
-    // FAVORITE / UNFAVORITE
     public function toggleFavorite($id)
     {
         $userId = auth()->id();
@@ -56,7 +48,6 @@ class ArtworkInteractionController extends Controller
         return back()->with('success', 'Ditambahkan ke favorit.');
     }
 
-    // LIHAT FAVORITE USER
     public function showFavorite()
     {
         $favorites = Favorite::with('artwork')
@@ -66,7 +57,6 @@ class ArtworkInteractionController extends Controller
         return view('member.favorites', compact('favorites'));
     }
 
-    // COMMENT
     public function comment(Request $request, Artwork $artwork)
     {
         $request->validate(['content' => 'required|string|max:1000']);
@@ -80,7 +70,29 @@ class ArtworkInteractionController extends Controller
         return back();
     }
 
-    // REPORT
+      public function deleteComment($commentId)
+    {
+        $comment = Comment::findOrFail($commentId);
+        $user = auth()->user();
+
+        if ($user->role === 'admin') {
+            $comment->delete();
+        } 
+    
+        elseif ($user->role === 'member' || $user->role === 'curator') {
+            if ($comment->user_id === $user->id || $comment->artwork->user_id === $user->id) {
+                $comment->delete();
+            } else {
+                abort(403, 'Tidak diizinkan menghapus komentar ini.');
+            }
+        } 
+        else {
+            abort(403, 'Tidak diizinkan.');
+        }
+
+        return back()->with('success', 'Komentar berhasil dihapus.');
+    }
+
     public function report(Request $request, Artwork $artwork)
     {
         $request->validate([

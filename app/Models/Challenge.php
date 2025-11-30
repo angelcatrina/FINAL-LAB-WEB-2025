@@ -26,7 +26,6 @@ class Challenge extends Model
         return $this->hasMany(Submission::class);
     }
 
-    // Jika ingin ambil winners nanti
     public function winners()
     {
         return $this->hasMany(Winner::class);

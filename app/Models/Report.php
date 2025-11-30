@@ -20,13 +20,13 @@ class Report extends Model
 
     public function artwork()
     {
-        // Relasi hanya dipanggil jika reported_type = 'artwork'
+        
         return $this->belongsTo(Artwork::class, 'reported_id');
     }
 
     public function comment()
     {
-        // Relasi hanya dipanggil jika reported_type = 'comment'
+        
         return $this->belongsTo(Comment::class, 'reported_id');
     }
 }

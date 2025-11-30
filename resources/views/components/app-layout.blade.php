@@ -8,10 +8,10 @@
 </head>
 <body class="bg-gray-100">
     <div class="min-h-screen">
-        <!-- Navbar -->
+       
         @include('layouts.navbar')
 
-        <!-- Page Content -->
+        
         <main>
             {{ $slot }}
         </main>

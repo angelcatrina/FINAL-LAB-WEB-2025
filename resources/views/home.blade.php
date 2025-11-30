@@ -7,14 +7,14 @@
             <div class="bg-white p-6 rounded-lg shadow mb-8">
                 <form method="GET" class="flex flex-col md:flex-row gap-4">
 
-                    <!-- Search -->
+           
 <input type="text" name="search" value="{{ request('search') }}"
        placeholder="Cari karya atau kreator..."
        class="flex-1 rounded-md shadow-sm px-3 py-2
               bg-gradient-to-r from-gray-200 via-white to-gray-300
               border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
 
-<!-- Category -->
+
 <select name="category"
         class="rounded-md shadow-sm px-3 py-2
                bg-gradient-to-r from-gray-200 via-white to-gray-300
@@ -79,7 +79,7 @@
                 </div>
             @endif
 
-            <!-- Featured Section -->
+            
             
 <h2 class="text-2xl font-bold mb-4 text-gray-800">Karya Terbaru</h2>
 
@@ -99,7 +99,7 @@
                     @endforeach
                 </div>
 
-            <!-- Popular Section -->
+         
             @if($popular->count())
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Populer</h2>
                 <div class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 mb-8">
@@ -118,8 +118,7 @@
                 </div>
             @endif
 
-            <!-- Latest Artworks -->
-            
+           
                 <div class="mt-6">
                     {{ $artworks->links() }}
                 </div>
@@ -127,7 +126,7 @@
                 <p class="text-gray-500">Belum ada karya.</p>
             @endif
 
-            <!-- Active Challenges -->
+           
             @if($activeChallenges->count() > 0)
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">Active Challenges</h2>
 

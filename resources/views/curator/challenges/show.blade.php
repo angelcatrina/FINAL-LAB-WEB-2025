@@ -3,7 +3,7 @@
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white shadow-sm sm:rounded-lg p-6 space-y-4">
 
-                <!-- Detail Challenge -->
+               
                 <h1 class="text-2xl font-bold">{{ $challenge->title }}</h1>
                 <p class="text-gray-600 mt-2">{{ $challenge->description }}</p>
 
@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <!-- Submit Button untuk Member -->
+               
                 @auth
                     @if(auth()->user()->role === 'member')
                         @if($challenge->end_date->isFuture())
@@ -53,7 +53,7 @@
                     <p class="text-gray-500 mt-2">Silakan login sebagai member untuk submit karya.</p>
                 @endguest
 
-                <!-- Galeri Submissions -->
+                
                 <div class="mt-6">
                     <h2 class="font-semibold text-lg mb-2">Galeri Submissions</h2>
                     @if($challenge->submissions->isEmpty())
@@ -73,7 +73,7 @@
                     @endif
                 </div>
 
-                <!-- Bagian Pemenang -->
+                
                 <div class="mt-6">
                     <h2 class="font-semibold text-lg mb-2">Pemenang</h2>
                     @if($winners->isEmpty())

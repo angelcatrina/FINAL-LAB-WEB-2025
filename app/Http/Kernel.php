@@ -11,7 +11,7 @@ class Kernel extends HttpKernel
      *
      * @var array
      */
-   // app/Http/Kernel.php
+  
 protected $routeMiddleware = [
     'auth' => \App\Http\Middleware\Authenticate::class,
     'member' => \App\Http\Middleware\Member::class,

@@ -28,13 +28,12 @@ public function update(ProfileUpdateRequest $request)
 {
     $user = $request->user();
 
-    // Simpan avatar jika ada
+    
     if ($request->hasFile('avatar')) {
         $avatarPath = $request->file('avatar')->store('avatars', 'public');
         $user->avatar_path = $avatarPath;
     }
 
-    // Isi kolom lain
     $user->display_name = $request->input('display_name');
     $user->bio = $request->input('bio');
     $user->instagram_url = $request->input('instagram_url');
@@ -43,7 +42,6 @@ public function update(ProfileUpdateRequest $request)
     $user->name = $request->input('name');
     $user->email = $request->input('email');
 
-    // Reset email_verified jika email berubah
     if ($user->isDirty('email')) {
         $user->email_verified_at = null;
     }

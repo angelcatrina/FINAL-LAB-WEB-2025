@@ -6,12 +6,12 @@
     <div class="min-h-screen bg-gray-200 py-10">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Card Form -->
+            
             <div class="bg-gray-100 shadow-md rounded-xl p-8">
                 <form method="POST" action="{{ route('curator.challenges.store') }}" enctype="multipart/form-data" class="space-y-6">
                     @csrf
 
-                    <!-- Judul Challenge -->
+                   
                     <div>
                         <label for="title" class="block text-gray-700 font-medium mb-2">Judul Challenge</label>
                         <input type="text" name="title" id="title" required
@@ -19,7 +19,7 @@
                         <x-input-error :messages="$errors->get('title')" class="mt-1 text-red-600"/>
                     </div>
 
-                    <!-- Deskripsi -->
+                    
                     <div>
                         <label for="description" class="block text-gray-700 font-medium mb-2">Deskripsi</label>
                         <textarea name="description" id="description" rows="3" required
@@ -27,7 +27,7 @@
                         <x-input-error :messages="$errors->get('description')" class="mt-1 text-red-600"/>
                     </div>
 
-                    <!-- Aturan -->
+                    
                     <div>
                         <label for="rules" class="block text-gray-700 font-medium mb-2">Aturan</label>
                         <textarea name="rules" id="rules" rows="3" required
@@ -35,7 +35,7 @@
                         <x-input-error :messages="$errors->get('rules')" class="mt-1 text-red-600"/>
                     </div>
 
-                    <!-- Hadiah -->
+                    
                     <div>
                         <label for="prize" class="block text-gray-700 font-medium mb-2">Hadiah (opsional)</label>
                         <input type="text" name="prize" id="prize"
@@ -43,7 +43,7 @@
                                class="w-full rounded-md bg-gray-50 text-gray-900 border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-gray-400">
                     </div>
 
-                    <!-- Tanggal Mulai & Berakhir -->
+                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label for="start_date" class="block text-gray-700 font-medium mb-2">Tanggal Mulai</label>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
 
-                    <!-- Banner -->
+                    
                     <div>
                         <label for="banner" class="block text-gray-700 font-medium mb-2">Banner (opsional)</label>
                         <input type="file" name="banner" id="banner" accept="image/*"
@@ -69,7 +69,7 @@
                         <x-input-error :messages="$errors->get('banner')" class="mt-1 text-red-600"/>
                     </div>
 
-                    <!-- Tombol -->
+                    
                     <div class="flex items-center gap-4 mt-6">
                         <button type="submit" 
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-900 font-semibold px-6 py-2 rounded-md transition-all duration-200 shadow">

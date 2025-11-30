@@ -14,12 +14,10 @@ public function index(Request $request)
 {
     $query = Artwork::with(['user', 'category'])->latest();
 
-    // Filter kategori
     if ($request->filled('category')) {
         $query->where('category_id', $request->category);
     }
 
-    // Search berdasarkan judul atau nama kreator
     if ($request->filled('search')) {
         $search = $request->search;
         $query->where(function ($q) use ($search) {
@@ -42,10 +40,18 @@ public function index(Request $request)
 
     public function show(Artwork $artwork)
 {
-    $artwork->load('category', 'user', 'comments.user', 'likes', 'favorites'); // eager load untuk efisiensi
-    return view('artworks.show', compact('artwork'));
-}
+    $artwork->load('category', 'user', 'comments.user', 'likes', 'favorites'); // eager load
 
+    $isFavorite = false;
+
+    if (auth()->check() && auth()->user()->role === 'member') {
+        $isFavorite = $artwork->favorites()
+                              ->where('user_id', auth()->id())
+                              ->exists();
+    }
+
+    return view('artworks.show', compact('artwork', 'isFavorite'));
+}
 
 
           public function profile(User $user)

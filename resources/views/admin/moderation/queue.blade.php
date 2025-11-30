@@ -38,7 +38,7 @@
                            <td class="px-4 py-2 border">
     <div class="flex gap-2 justify-center">
 
-        <!-- Tombol Dismiss -->
+
         <form action="{{ route('admin.moderation.dismiss', $report) }}" method="POST">
             @csrf
             <button type="submit" class="px-3 py-1 rounded bg-yellow-400 text-white hover:bg-yellow-500 transition">
@@ -46,7 +46,7 @@
             </button>
         </form>
 
-        <!-- Tombol Take Down -->
+    
         <form action="{{ route('admin.moderation.takeDown', $report) }}" method="POST">
             @csrf
             <button type="submit" class="px-3 py-1 rounded bg-red-600 text-white hover:bg-red-700 transition">
@@ -54,7 +54,7 @@
             </button>
         </form>
 
-        <!-- Tombol Detail -->
+     
         <a href="{{ route('admin.moderation.detail', $report) }}" 
            class="px-3 py-1 rounded bg-blue-600 text-white hover:bg-blue-700 transition">
            Detail
@@ -63,8 +63,8 @@
     </div>
 </td>
 
-                        </tr>
-                        @endforeach
+                </tr>
+                 @endforeach
                     </tbody>
                 </table>
 

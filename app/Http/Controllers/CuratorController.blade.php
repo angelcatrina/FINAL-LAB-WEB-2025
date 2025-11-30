@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class CuratorController extends Controller
 {
-    // Dashboard Curator
+
     public function dashboard()
     {
         $user = auth()->user();
@@ -16,7 +16,6 @@ class CuratorController extends Controller
         return view('curator.dashboard', compact('challenges'));
     }
 
-    // Halaman Pending
     public function pending()
     {
         return view('curator.pending');

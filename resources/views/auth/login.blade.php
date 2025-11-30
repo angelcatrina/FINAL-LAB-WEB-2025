@@ -1,24 +1,18 @@
 <x-guest-layout>
 
     <!-- <div class="min-h-screen flex flex-col justify-center items-center
-                bg-gray-200">  ABU ABU POLOS -->
+                bg-gray-200">  -->
 
-        <!-- CARD LOGIN -->
         <div class="w-full max-w-md bg-white shadow-xl
                     border border-gray-200 rounded-2xl p-8">
-
-            <!-- Judul -->
             <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">
                 SELAMAT DATANG!
             </h1>
 
-            <!-- Session Status -->
             <x-auth-session-status class="mb-4" :status="session('status')" />
-
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <!-- Email Address -->
                 <div>
                     <x-input-label for="email" :value="__('Email')" class="text-gray-700" />
                     <x-text-input id="email"
@@ -30,7 +24,6 @@
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>
 
-                <!-- Password -->
                 <div class="mt-4">
                     <x-input-label for="password" :value="__('Password')" class="text-gray-700" />
 
@@ -44,7 +37,7 @@
                     <x-input-error :messages="$errors->get('password')" class="mt-2" />
                 </div>
 
-                <!-- Remember Me -->
+               
                 <div class="block mt-4">
                     <label for="remember_me" class="inline-flex items-center">
                         <input id="remember_me" type="checkbox"

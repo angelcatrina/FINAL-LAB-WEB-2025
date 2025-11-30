@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Artwork;
 use App\Models\Report;
-use App\Models\Category; // <--- ini wajib!
+use App\Models\Category; 
 
 class AdminController extends Controller
 {

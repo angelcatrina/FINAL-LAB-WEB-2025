@@ -17,7 +17,8 @@
                     <div class="group relative bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col transform hover:-translate-y-1">
                         
                         {{-- 2. Gambar Artwork dan Link Detail --}}
-                        <a href="{{ route('member.dashboard', $fav->artwork->slug ?? $fav->artwork->id) }}" title="{{ $fav->artwork->title }}" class="relative w-full h-48 overflow-hidden flex-shrink-0">
+                        <a href="{{ route('artworks.show', $fav->artwork->id) }}"
+title="{{ $fav->artwork->title }}" class="relative w-full h-48 overflow-hidden flex-shrink-0">
                             <img src="{{ asset('storage/' . $fav->artwork->file_path) }}" 
                                 alt="{{ $fav->artwork->title }}" 
                                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">

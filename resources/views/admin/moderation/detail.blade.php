@@ -6,17 +6,17 @@
     <div class="min-h-screen bg-gray-100 py-6">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
 
-            <!-- Card utama -->
+          
             <div class="bg-white p-6 rounded-lg shadow-md space-y-6">
 
-                <!-- Info Pelapor & Jenis Report -->
+        
                 <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-1">
                     <p><strong>Pelapor:</strong> {{ $report->reporter->name }}</p>
                     <p><strong>Jenis Laporan:</strong> {{ $report->reason }}</p>
                     <p><strong>Tanggal Dilaporkan:</strong> {{ $report->created_at->format('d M Y H:i') }}</p>
                 </div>
 
-                <!-- Konten Report -->
+              
                 <div class="p-4 bg-gray-50 rounded-lg border border-gray-200 space-y-3">
                     @if($report->reported_type === 'artwork' && $report->artwork)
                         <p class="font-semibold text-gray-800 mb-2">Judul Karya: {{ $report->artwork->title }}</p>
@@ -36,7 +36,7 @@
                     @endif
                 </div>
 
-                <!-- Tombol Kembali -->
+             
                 <div class="flex justify-start">
                     <a href="{{ route('admin.moderation.queue') }}" 
                        class="px-4 py-2 rounded bg-gray-600 text-white hover:bg-gray-700 transition">

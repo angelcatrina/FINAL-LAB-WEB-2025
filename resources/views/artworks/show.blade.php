@@ -1,7 +1,4 @@
 <x-app-layout>
-    {{-- ======================================================= --}}
-    {{-- A. NOTIFIKASI LAPORAN (BARU) --}}
-    {{-- ======================================================= --}}
     @if (session('success'))
         <div class="max-w-4xl mx-auto px-6 lg:px-8 pt-6">
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
@@ -40,67 +37,96 @@
                             {{ $artwork->created_at->format('d M Y') }}
                         </div>
 
-                        @auth
-                            @if(auth()->user()->role === 'member')
-                                <div class="mt-6 flex flex-wrap gap-2">
-                                    {{-- 1. LIKE / UNLIKE LOGIC (DIUBAH) --}}
-                                    @php
-                                        $isLiked = $artwork->likes()->where('user_id', auth()->id())->exists();
-                                    @endphp
+                       {{-- Like / Favorite / Report --}}
+<div class="mt-4">
+    @auth
+        @if(auth()->user()->role === 'member')
+            @php
+                $isLiked = $artwork->likes()->where('user_id', auth()->id())->exists();
+               
+            @endphp
 
-                                    <form method="POST" action="{{ route('member.dashboard', $artwork->id) }}" class="inline">
-                                        @csrf
-                                        {{-- Jika sudah di-Like, gunakan method DELETE untuk Unlike (RESTful) --}}
-                                        @if($isLiked)
-                                            @method('DELETE') 
-                                        @endif
-                                        <button type="submit" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-                                            {{ $isLiked ? 'Unlike' : 'Like' }}
-                                        </button>
-                                    </form>
+            {{-- Like / Unlike Button --}}
+            <button onclick="toggleLike({{ $artwork->id }})"
+                    id="like-btn-{{ $artwork->id }}"
+                    class="px-3 py-1 rounded font-semibold
+                           {{ $isLiked ? 'bg-red-100 text-red-600' : 'bg-gray-200 text-gray-700' }}">
+                {{ $isLiked ? 'Unlike' : 'Like' }}
+            </button>
 
-                                    {{-- 2. FAVORITE / UNSAVE LOGIC (DIUBAH) --}}
-                                    @php
-                                        $isFavorite = $artwork->favorites()->where('user_id', auth()->id())->exists();
-                                    @endphp
-                                    
-                                    <form method="POST" action="{{ route('member.artworks.favorite', $artwork) }}" class="inline">
-                                        @csrf
-                                        {{-- Jika sudah di-Save, gunakan method DELETE untuk Unsave --}}
-                                        @if($isFavorite)
-                                            @method('DELETE') 
-                                        @endif
-                                        <button type="submit" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
-                                            {{ $isFavorite ? 'Unsave' : 'Simpan' }}
-                                        </button>
-                                    </form>
+            {{-- Favorite / Unsave --}}
+            <form method="POST" action="{{ route('member.artworks.favorite', $artwork) }}" class="inline">
+                @csrf
+                @if($isFavorite)
+                    @method('DELETE')
+                @endif
+                <button type="submit" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">
+                    {{ $isFavorite ? 'Unsave' : 'Simpan' }}
+                </button>
+            </form>
 
-                                    <button onclick="document.getElementById('report-form').classList.toggle('hidden')"
-                                            class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm">
-                                        Laporkan
-                                    </button>
-                                </div>
+            {{-- Report --}}
+            <button onclick="document.getElementById('report-form').classList.toggle('hidden')"
+                    class="px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200 text-sm">
+                Laporkan
+            </button>
 
-                                <div id="report-form" class="mt-4 hidden">
-                                    <form method="POST" action="{{ route('member.artworks.report', $artwork) }}">
-                                        @csrf
-                                        <select name="reason" class="w-full mb-2 border rounded p-2" required>
-                                            <option value="">-- Pilih Alasan --</option>
-                                            <option value="SARA">SARA</option>
-                                            <option value="Plagiat">Plagiat</option>
-                                            <option value="Konten Tidak Pantas">Konten Tidak Pantas</option>
-                                            <option value="Lainnya">Lainnya</option>
-                                        </select>
-                                        <button type="submit" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Kirim Laporan</button>
-                                    </form>
-                                </div>
-                            @endif
-                        @else
-                            <div class="mt-6 text-sm text-gray-500">
-                                <p> Login sebagai Member untuk menyukai, menyimpan, atau melaporkan karya ini.</p>
-                                <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Login</a>
-                            </div>
-                        @endauth
+            <div id="report-form" class="mt-4 hidden">
+                <form method="POST" action="{{ route('member.artworks.report', $artwork) }}">
+                    @csrf
+                    <select name="reason" class="w-full mb-2 border rounded p-2" required>
+                        <option value="">-- Pilih Alasan --</option>
+                        <option value="SARA">SARA</option>
+                        <option value="Plagiat">Plagiat</option>
+                        <option value="Konten Tidak Pantas">Konten Tidak Pantas</option>
+                        <option value="Lainnya">Lainnya</option>
+                    </select>
+                    <button type="submit" class="mt-2 bg-red-600 text-white px-3 py-1 rounded">Kirim Laporan</button>
+                </form>
+            </div>
+        @endif
+    @endauth
+
+    @guest
+        <div class="mt-6 text-sm text-gray-500">
+            <p>Login sebagai Member untuk menyukai, menyimpan, atau melaporkan karya ini.</p>
+            <a href="{{ route('login') }}" class="text-blue-600 hover:underline">Login</a>
+        </div>
+    @endguest
+</div>
+
+{{-- AJAX Script --}}
+<script>
+function toggleLike(artworkId) {
+    const likeBtn = document.getElementById('like-btn-' + artworkId);
+
+    fetch(`/member/artworks/${artworkId}/like`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    })
+    .then(res => res.json())
+    .then(data => {
+       
+        likeBtn.textContent = data.is_liked ? 'Unlike' : 'Like';
+
+        
+        if(data.is_liked){
+            likeBtn.classList.remove('bg-gray-200', 'text-gray-700');
+            likeBtn.classList.add('bg-red-100', 'text-red-600');
+        } else {
+            likeBtn.classList.remove('bg-red-100', 'text-red-600');
+            likeBtn.classList.add('bg-gray-200', 'text-gray-700');
+        }
+    })
+    .catch(err => console.error(err));
+}
+</script>
+
 
                         <div class="mt-8">
                             <h3 class="font-semibold">Komentar ({{ $artwork->comments->count() }})</h3>
