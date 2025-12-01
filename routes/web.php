@@ -23,7 +23,7 @@ use App\Http\Controllers\Curator\ChallengeController;
 use App\Http\Controllers\Curator\SubmissionController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Member\DashboardController;
-use App\Http\Controllers\CommentController;
+
 
 
 
@@ -84,8 +84,9 @@ Route::middleware(['auth'])->group(function () {
      Route::get('/member/artworks/submissions', [ArtworkController::class, 'submissions'])
      ->name('member.artworks.submissions');
 
-     Route::delete('/member/artworks/comment/{comment}', [CommentController::class, 'destroy'])
-         ->name('member.artworks.comment.delete');
+     Route::delete('/member/artworks/comment/{commentId}', 
+    [ArtworkInteractionController::class, 'deleteComment']
+)->name('member.artworks.comment.delete');
 
 });
 
@@ -273,14 +274,18 @@ Route::prefix('admin')
     
 });
 
+Route::middleware(['auth', 'role:curator'])
+    ->prefix('curator')
+    ->name('curator.')
+    ->group(function () {
+        Route::post('challenges/{challenge}/announce', 
+            [App\Http\Controllers\Curator\ChallengeController::class, 'announceWinners'])
+            ->name('challenges.announce');
 
-
+        Route::get('/dashboard', [CuratorController::class, 'dashboard'])->name('dashboard');
+        Route::resource('challenges', App\Http\Controllers\Curator\ChallengeController::class);
+    });
 
     
-
-
-        
-  
-
 
 require __DIR__.'/auth.php';

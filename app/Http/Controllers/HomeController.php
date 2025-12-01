@@ -17,18 +17,23 @@ class HomeController extends Controller
         $category = $request->category;
 
         $artworks = Artwork::query()
-            ->when($search, function ($q) use ($search) {
-                $q->where('title', 'like', "%$search%")
-                  ->orWhereHas('user', function ($u) use ($search) {
-                      $u->where('name', 'like', "%$search%");
-                  });
-            })
-            ->when($category, function ($q) use ($category) {
-                $q->where('category_id', $category);
-            })
-            ->latest()
-            ->paginate(20);
+    ->when($search, function ($q) use ($search) {
+        $q->where(function ($q2) use ($search) {
+            $q2->where('title', 'like', "%$search%")
+               ->orWhereHas('user', function ($u) use ($search) {
+                   $u->where('name', 'like', "%$search%");
+               });
+        });
+    })
+    ->when($category, function ($q) use ($category) {
+        $q->where('category_id', $category);
+    })
+    ->latest()
+    ->paginate(20);
 
+
+
+    
         $featured = Artwork::inRandomOrder()->take(6)->get();
         $popular = Artwork::latest()->take(10)->get();
         $newest = Artwork::latest()->take(10)->get();

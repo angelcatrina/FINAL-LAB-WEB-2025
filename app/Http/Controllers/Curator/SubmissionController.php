@@ -25,21 +25,24 @@ class SubmissionController extends Controller
     return view('curator.submissions.index', compact('submissions', 'announcedChallenges'));
     }
 
-    public function setWinner(Request $request, Submission $submission)
-    {
-        $request->validate([
-            'winner_position' => 'required|integer|min:1',
-        ]);
+public function setWinner(Request $request, Submission $submission)
+{
+    $request->validate([
+        'winner_position' => 'required|integer|min:1',
+    ]);
 
-        Submission::where('challenge_id', $submission->challenge_id)
-                  ->where('winner_position', $request->winner_position)
-                  ->update(['is_winner' => false, 'winner_position' => null]);
+    
+    Submission::where('challenge_id', $submission->challenge_id)
+              ->where('winner_position', $request->winner_position)
+              ->update(['winner_position' => null]);
 
-        $submission->update([
-            'is_winner' => true,
-            'winner_position' => $request->winner_position,
-        ]);
+   
+    $submission->update([
+        'winner_position' => $request->winner_position,
+    ]);
 
-        return redirect()->back()->with('success', 'Pemenang berhasil ditetapkan!');
-    }
+    return redirect()->back()->with('success', 'Posisi juara berhasil disimpan sementara.');
+}
+
+
 }

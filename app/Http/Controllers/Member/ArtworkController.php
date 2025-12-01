@@ -39,7 +39,7 @@ class ArtworkController extends Controller
         'category_id' => $request->category_id,
         'title' => $request->title,
         'description' => $request->description,
-        'file_path' => $filePath, // contoh: artworks/nama_file.jpg
+        'file_path' => $filePath, 
         'tags' => $request->tags,
     ]);
 
@@ -85,7 +85,7 @@ class ArtworkController extends Controller
     }
 public function save(Artwork $artwork)
 {
-    // Contoh logika Save, misal relasi many-to-many dengan user
+    
     auth()->user()->savedArtworks()->syncWithoutDetaching($artwork->id);
 
     return back()->with('success', 'Karya berhasil disimpan!');
@@ -109,7 +109,7 @@ public function save(Artwork $artwork)
 
     public function report()
 {
-    // Misal return view report
+   
     return view('member.artworks.report');
 }
 
@@ -121,13 +121,13 @@ public function show($id)
     return view('artwork.detail', compact('artwork'));
 }
 
-// Tambahkan method submissions() di sini
+
     public function submissions()
     {
-        // Ambil semua artworks yang pernah di-submit ke challenge oleh user
+        
         $submissions = auth()->user()
                         ->artworks()
-                        ->whereHas('submissions') // Hanya artworks yang pernah di-submit
+                        ->whereHas('submissions') 
                         ->with('submissions.challenge')
                         ->latest()
                         ->get();

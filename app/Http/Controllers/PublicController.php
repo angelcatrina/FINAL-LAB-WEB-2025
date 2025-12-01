@@ -14,19 +14,22 @@ public function index(Request $request)
 {
     $query = Artwork::with(['user', 'category'])->latest();
 
-    if ($request->filled('category')) {
-        $query->where('category_id', $request->category);
-    }
+$category = $request->input('category');
+$search = $request->input('search');
 
-    if ($request->filled('search')) {
-        $search = $request->search;
-        $query->where(function ($q) use ($search) {
-            $q->where('title', 'like', "%{$search}%")
-              ->orWhereHas('user', fn($u) => $u->where('name', 'like', "%{$search}%"));
-        });
-    }
+if ($category !== null && $category !== '') {
+    $query->where('category_id', (int)$category);
+}
 
-    $artworks = $query->paginate(12);
+if ($search) {
+    $query->where(function ($q) use ($search) {
+        $q->where('title', 'like', "%{$search}%")
+          ->orWhereHas('user', fn($u) => $u->where('name', 'like', "%{$search}%"));
+    });
+}
+
+$artworks = $query->paginate(12);
+
     $categories = Category::all();
     $activeChallenges = Challenge::where('start_date', '<=', now())
                                 ->where('end_date', '>=', now())

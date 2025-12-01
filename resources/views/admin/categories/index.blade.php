@@ -1,30 +1,28 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800">Manajemen Kategori</h2>
-    </x-slot>
+    {{-- Header bawaan dihapus sepenuhnya --}}
 
-    <div class="min-h-screen bg-gray-100 py-10">
+    <div class="min-h-screen bg-gray-200 py-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <div class="bg-white shadow-md border border-gray-300 rounded-xl p-6">
+            <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">
+                Daftar Kategori
+            </h1>
 
-             
-                <div class="flex justify-between items-center mb-6">
-                    <h3 class="text-lg font-semibold text-gray-800">Daftar Kategori</h3>
+            <div class="bg-white shadow-xl rounded-2xl p-6">
+
+                <div class="flex justify-end mb-6">
                     <a href="{{ route('admin.categories.create') }}" 
-                       class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
+                       class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow-md transition">
                         + Tambah Kategori
                     </a>
                 </div>
 
-           
                 @if(session('success'))
-                    <div class="mb-4 p-3 bg-green-100 border-l-4 border-green-500 text-green-800 rounded shadow">
+                    <div class="mb-4 p-4 bg-green-100 border-l-4 border-green-500 text-green-800 rounded shadow">
                         {{ session('success') }}
                     </div>
                 @endif
 
-         
                 @if($categories->count())
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-gray-50 divide-y divide-gray-200 rounded-lg shadow">
@@ -36,9 +34,9 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200">
                                 @foreach($categories as $cat)
-                                    <tr class="hover:bg-gray-100 transition-colors">
-                                        <td class="px-6 py-4 text-gray-800">{{ $cat->name }}</td>
-                                        <td class="px-6 py-4 flex gap-3">
+                                    <tr class="hover:bg-gray-50 transition-colors">
+                                        <td class="px-6 py-4 text-gray-800 font-medium">{{ $cat->name }}</td>
+                                        <td class="px-6 py-4 flex gap-4">
                                             <a href="{{ route('admin.categories.edit', $cat) }}" 
                                                class="text-blue-600 hover:text-blue-800 font-semibold transition">
                                                 Edit
@@ -58,7 +56,7 @@
                         </table>
                     </div>
                 @else
-                    <p class="text-gray-500 italic mt-4">Belum ada kategori.</p>
+                    <p class="text-gray-500 italic mt-4 text-center">Belum ada kategori.</p>
                 @endif
 
             </div>

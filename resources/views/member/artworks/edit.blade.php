@@ -12,7 +12,7 @@
                 @csrf
                 @method('PUT')
 
-                {{-- Judul --}}
+              
                 <div>
                     <label for="title" class="block text-gray-700 font-semibold mb-1">Judul</label>
                     <input type="text" name="title" id="title" required
@@ -21,7 +21,7 @@
                     <x-input-error :messages="$errors->get('title')" class="mt-1" />
                 </div>
 
-                {{-- Kategori --}}
+               
                 <div>
                     <label for="category_id" class="block text-gray-700 font-semibold mb-1">Kategori</label>
                     <select name="category_id" id="category_id" required
@@ -36,7 +36,7 @@
                     <x-input-error :messages="$errors->get('category_id')" class="mt-1" />
                 </div>
 
-                {{-- Deskripsi --}}
+              
                 <div>
                     <label for="description" class="block text-gray-700 font-semibold mb-1">Deskripsi</label>
                     <textarea name="description" id="description" rows="4"
@@ -45,7 +45,7 @@
                     <x-input-error :messages="$errors->get('description')" class="mt-1" />
                 </div>
 
-                {{-- Ganti Gambar --}}
+            
                 <div>
                     <label for="file" class="block text-gray-700 font-semibold mb-1">Ganti Gambar (opsional)</label>
                     <input type="file" name="file" id="file" accept="image/*"
@@ -59,7 +59,7 @@
                     @endif
                 </div>
 
-                {{-- Tags --}}
+            
                 <div>
                     <label for="tags" class="block text-gray-700 font-semibold mb-1">Tags (opsional)</label>
                     <input type="text" name="tags" id="tags" placeholder="Contoh: digital art, karakter"
@@ -68,7 +68,7 @@
                     <x-input-error :messages="$errors->get('tags')" class="mt-1" />
                 </div>
 
-                {{-- Tombol Aksi --}}
+             
                 <div class="flex justify-end items-center gap-4">
                     <button type="submit"
                         class="bg-gray-800 hover:bg-gray-900 text-white px-6 py-2 rounded-xl shadow-lg font-semibold transition-all">

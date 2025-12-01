@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
     'admin' => \App\Http\Middleware\Admin::class,
     'curator' => \App\Http\Middleware\Curator::class,
     'member' => \App\Http\Middleware\Member::class,
+    'role' => \App\Http\Middleware\CheckRole::class,
 ]);
 
     })

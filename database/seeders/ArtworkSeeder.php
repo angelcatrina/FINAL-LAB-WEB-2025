@@ -11,13 +11,13 @@ class ArtworkSeeder extends Seeder
 {
     public function run()
     {
-        // Contoh data
+        
         Artwork::create([
             'title' => 'Lukisan Senja',
             'description' => 'Karya digital warna senja',
-            'file_path' => 'senja.jpg', // nanti harus ada di storage/app/public
-            'user_id' => 1, // pastikan user dengan id=1 ada
-            'category_id' => 1, // pastikan category dengan id=1 ada
+            'file_path' => 'senja.jpg', 
+            'user_id' => 1, 
+            'category_id' => 1, 
             'tags' => 'senja,digital',
         ]);
 

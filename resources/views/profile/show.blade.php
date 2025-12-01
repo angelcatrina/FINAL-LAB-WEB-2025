@@ -2,18 +2,15 @@
     <div class="min-h-screen bg-gray-100 py-8">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
 
-            <!-- Card Profil Pengguna -->
             <div class="bg-white shadow-md rounded-xl p-6">
 
-                <!-- Header Profil -->
                 <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6">
-                    
-                    <!-- Avatar -->
+                  
                     <img src="{{ $user->avatar_path ? asset('storage/' . $user->avatar_path) : 'https://ui-avatars.com/api/?name=' . urlencode($user->name) }}"
                          alt="{{ $user->name }}"
                          class="w-28 h-28 rounded-full object-cover border border-gray-300">
 
-                    <!-- Info Profil -->
+                   
                     <div class="flex-1 flex flex-col">
                         <div class="flex items-center gap-3">
                             <h1 class="text-2xl font-bold text-gray-800">{{ $user->display_name ?: $user->name }}</h1>
@@ -40,12 +37,10 @@
 @endif
                         </div>
 
-                        <!-- Bio -->
                         @if($user->bio)
                             <p class="text-gray-600 mt-2">{{ $user->bio }}</p>
                         @endif
 
-                        <!-- Sosial Media -->
                         <div class="mt-2 flex gap-3 text-sm">
                             @if($user->website_url)
                                 <a href="{{ $user->website_url }}" target="_blank" class="text-blue-600 hover:underline">Website</a>
@@ -60,7 +55,6 @@
                     </div>
                 </div>
 
-                <!-- Karya Pengguna -->
                 <div class="mt-8">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Karya oleh {{ $user->name }}</h2>
 
@@ -75,7 +69,6 @@
                             @endforeach
                         </div>
 
-                        <!-- Pagination -->
                         <div class="mt-4">
                             {{ $artworks->links() }}
                         </div>

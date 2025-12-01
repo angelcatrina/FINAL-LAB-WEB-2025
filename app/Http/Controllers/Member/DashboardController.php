@@ -14,17 +14,17 @@ class DashboardController extends Controller
     {
         $user = auth()->user();
         
-        // My Artworks
+        
         $artworks = Artwork::where('user_id', $user->id)
                         ->latest()
                         ->get();
 
-        // My Favorites
+        
         $favorites = Favorite::with('artwork')
                         ->where('user_id', $user->id)
                         ->get();
 
-        // My Submissions (Challenge)
+        
         $submissions = ChallengeSubmission::with('challenge', 'artwork')
                             ->where('user_id', $user->id)
                             ->latest()

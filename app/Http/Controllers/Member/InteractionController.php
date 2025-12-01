@@ -54,7 +54,6 @@ class InteractionController extends Controller
 {
     $comment = \App\Models\Comment::findOrFail($commentId);
 
-    // Pastikan hanya pemilik komentar atau pemilik artwork yang bisa hapus
     if ($comment->user_id === auth()->id() || $comment->artwork->user_id === auth()->id()) {
         $comment->delete();
     }
@@ -62,15 +61,12 @@ class InteractionController extends Controller
     return back();
 }
 
-    // ===========================
-    // Method baru untuk menampilkan favorites
-    // ===========================
     public function favorites()
     {
-        // Ambil semua favorite milik user, beserta data artwork terkait
+       
         $favorites = auth()->user()->favorites()->with('artwork')->get();
 
-        // Tampilkan view member.favorites
+       
         return view('member.favorites', compact('favorites'));
     }
 

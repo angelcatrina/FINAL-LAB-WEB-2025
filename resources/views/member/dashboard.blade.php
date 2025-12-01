@@ -1,29 +1,22 @@
 <x-app-layout>
     <div class="flex min-h-screen bg-gray-100">
-        {{-- Sidebar (tidak diubah) --}}
         <aside class="w-20 bg-white border-r border-gray-200 flex flex-col items-center py-8 fixed h-full z-10">
-            {{-- Home --}}
+       
             <a href="{{ route('home') }}" class="mb-8 p-3 rounded-full hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200" title="Home">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
                 </svg>
             </a>
-
-            {{-- Create --}}
             <a href="{{ route('member.artworks.create') }}" class="mb-8 p-3 rounded-full hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200" title="Create">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                 </svg>
             </a>
-
-            {{-- Favorites --}}
             <a href="{{ route('member.favorites') }}" class="mb-8 p-3 rounded-full hover:bg-gray-200 text-gray-700 hover:text-gray-900 transition-all duration-200" title="Favorites">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                 </svg>
             </a>
-
-            {{-- Profile --}}
             <a href="{{ route('member.profile.edit') }}" class="mt-40 p-3 rounded-full hover:bg-gray-200 transition-all duration-200" title="Profile">
                 @if(auth()->user()->avatar_path)
                     <img src="{{ asset('storage/' . auth()->user()->avatar_path) }}" class="w-10 h-10 rounded-full object-cover border-2 border-gray-300">
@@ -34,8 +27,6 @@
                 @endif
             </a>
         </aside>
-
-        {{-- Main Content --}}
         <main class="flex-1 ml-20">
             {{-- Header --}}
             <div class="bg-white border-b border-gray-200 sticky top-0 z-10">
@@ -47,8 +38,6 @@
             </div>
 
             <div class="max-w-[1600px] mx-auto px-6 py-8">
-
-                {{-- Notifikasi sukses --}}
                 @if(session('success'))
                     <div class="mb-6 bg-green-50 border border-green-200 p-4 rounded-lg flex items-center gap-3">
                         <svg class="w-5 h-5 text-green-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
@@ -58,7 +47,6 @@
                     </div>
                 @endif
 
-                {{-- Tabs Navigation --}}
                 <div class="mb-8 border-b border-gray-200">
                     <nav class="flex gap-8">
                         <a href="{{ route('member.dashboard') }}"  class="pb-4 border-b-2 border-red-600 font-semibold text-gray-900">
@@ -84,7 +72,6 @@
                                     </div>
                                 </div>
 
-                                {{-- Modal Detail Photo --}}
                                 <div x-show="open"@click.stop x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 p-4">
                                     <div @click.away="open=false" class="bg-white rounded-2xl w-full md:w-4/5 lg:w-3/5 xl:w-1/2 max-h-[95vh] overflow-y-auto relative shadow-2xl">
                                         <button @click="open=false" class="absolute top-4 right-4 z-10 text-white bg-black/50 hover:bg-black/70 rounded-full p-2 transition">
@@ -160,7 +147,6 @@ function toggleLike(artworkId) {
 </script>
 
 
-                                                {{-- Favorite --}}
                                                 <form action="{{ route('member.artworks.favorite', $artwork->id) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="flex items-center gap-1 text-blue-500 hover:text-blue-600 font-semibold">
@@ -171,7 +157,6 @@ function toggleLike(artworkId) {
                                                     </button>
                                                 </form>
 
-                                                {{-- Report --}}
                                                 <button type="button" class="flex items-center gap-1 text-gray-500 hover:text-gray-600 font-semibold">
                                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
@@ -179,7 +164,6 @@ function toggleLike(artworkId) {
                                                     Laporkan
                                                 </button>
 
-                                                {{-- Edit & Delete --}}
                                                 @if($artwork->user_id === auth()->id())
                                                     <a href="{{ route('member.artworks.edit', $artwork->id) }}" class="flex items-center gap-1 text-green-500 hover:text-green-600 font-semibold">
                                                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">

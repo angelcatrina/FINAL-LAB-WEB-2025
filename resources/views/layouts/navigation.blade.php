@@ -1,49 +1,56 @@
-<nav class="bg-gradient-to-r from-gray-300 via-gray-100 to-gray-800 border-b border-gray-200 fixed top-0 left-0 w-full z-50">
+<nav x-data="{ open: false }" class="bg-gradient-to-r from-gray-300 via-gray-100 to-gray-800 border-b border-gray-200 fixed top-0 left-0 w-full z-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Icon Rumah -->
-                <div class="shrink-0 flex items-center mr-4">
-                    <a href="{{ route('home') }}" class="text-gray-800 hover:text-gray-900 transition">
-                        <!-- ikon rumah SVG -->  <svg xmlns="http://www.w3.org/2000/svg" 
-             fill="none" 
-             viewBox="0 0 24 24" 
-             stroke-width="1.5" 
-             stroke="currentColor" 
-             class="w-8 h-8">
-            <path stroke-linecap="round" stroke-linejoin="round" 
-                  d="M2.25 12l9.5-9.5 9.5 9.5M4.5 9.75v10.5A1.75 1.75 0 006.25 22h11.5A1.75 1.75 0 0019.5 20.25V9.75" />
-        </svg>
+            <div class="flex items-center space-x-4">
+                
+                <div class="shrink-0 flex items-center">
+    <a href="{{ route('home') }}" class="transition">
+
+        <img src="{{ asset('storage/avatars/p.jpg') }}" 
+             alt="Home Icon" 
+             class="w-10 h-10 object-cover rounded-full"> 
     </a>
-</div>
+</div>>
 
-
-                <!-- Navigation Links -->
-                <div class="hidden space-x-10 sm:-my-px sm:ms-14 sm:flex">
+                <div class="flex items-center"> 
                     @auth
+                        @php
+                            // **PERUBAHAN UKURAN FONT DI SINI:**
+                            // text-lg untuk mobile
+                            // sm:text-2xl untuk desktop (lebih kecil dari 3xl)
+                            $dashboardClasses = 'text-gray-800 hover:text-gray-900 text-lg sm:text-2xl font-extrabold tracking-wider transition duration-150 ease-in-out';
+                        @endphp
+
                         @if(auth()->user()->role === 'admin')
-                            <x-nav-link class="text-gray-800 hover:text-gray-900" :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                                {{ __('Dashboard') }}
+                            <x-nav-link class="{{ $dashboardClasses }}" :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
+                                {{ __('Dashboard Admin') }}
                             </x-nav-link>
                         @elseif(auth()->user()->role === 'member')
-                            <x-nav-link class="text-gray-800 hover:text-gray-900" :href="route('member.dashboard')" :active="request()->routeIs('member.dashboard')">
-                                {{ __('Dashboard') }}
+                            <x-nav-link class="{{ $dashboardClasses }}" :href="route('member.dashboard')" :active="request()->routeIs('member.dashboard')">
+                                {{ __('Dashboard Member') }}
                             </x-nav-link>
                         @elseif(auth()->user()->role === 'curator')
-                            <x-nav-link class="text-gray-800 hover:text-gray-900" :href="route('curator.dashboard')" :active="request()->routeIs('curator.dashboard')">
-                                {{ __('Dashboard') }}
+                            <x-nav-link class="{{ $dashboardClasses }}" :href="route('curator.dashboard')" :active="request()->routeIs('curator.dashboard')">
+                                {{ __('Dashboard Curator') }}
                             </x-nav-link>
                         @endif
+                          @else
+   
+       <span class="text-transparent bg-clip-text bg-gradient-to-r from-gray-900 via-gray-600 to-gray-900 
+             text-lg sm:text-xl font-extrabold italic tracking-wide drop-shadow-sm">
+    HindiaGallery
+</span>
+
+
                     @endauth
                 </div>
             </div>
 
-            <!-- Settings Dropdown / Auth Links -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 @auth
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-white leading-4 font-medium rounded-md text-white-500 bg-grey hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                            <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-transparent hover:text-gray-900 focus:outline-none transition ease-in-out duration-150">
                                 <div>{{ Auth::user()->name }}</div>
                                 <div class="ms-1">
                                     <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -65,16 +72,15 @@
                         </x-slot>
                     </x-dropdown>
                 @else
-                    <a href="{{ route('login') }}" class="text-sm text-white-700 underline">Log in</a>
+                    <a href="{{ route('login') }}" class="text-sm text-white hover:underline">Log in</a>
                     @if (Route::has('register'))
-                        <a href="{{ route('register') }}" class="ms-4 text-sm text-white-700 underline">Register</a>
+                        <a href="{{ route('register') }}" class="ms-4 text-sm text-white hover:underline">Register</a>
                     @endif
                 @endauth
             </div>
 
-            <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-150">
+                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-gray-700 hover:bg-gray-200 focus:outline-none transition duration-150">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open}" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                         <path :class="{'hidden': ! open, 'inline-flex': open}" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -84,24 +90,9 @@
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden bg-gray-100 border-t border-gray-200">
         <div class="pt-2 pb-3 space-y-1">
-            @auth
-                @if(auth()->user()->role === 'admin')
-                    <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
-                @elseif(auth()->user()->role === 'member')
-                    <x-responsive-nav-link :href="route('member.dashboard')" :active="request()->routeIs('member.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
-                @elseif(auth()->user()->role === 'curator')
-                    <x-responsive-nav-link :href="route('curator.dashboard')" :active="request()->routeIs('curator.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-responsive-nav-link>
-                @endif
-            @else
+            @guest
                 <x-responsive-nav-link :href="route('login')">
                     {{ __('Log in') }}
                 </x-responsive-nav-link>
@@ -110,10 +101,9 @@
                         {{ __('Register') }}
                     </x-responsive-nav-link>
                 @endif
-            @endauth
+            @endguest
         </div>
-
-        <!-- Responsive Settings Options -->
+        
         @auth
             <div class="pt-4 pb-1 border-t border-gray-200">
                 <div class="px-4">

@@ -1,10 +1,14 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-800">Kelola Challenge</h2>
-    </x-slot>
+    {{-- Header slot dihapus agar tidak ada background putih --}}
+    {{-- <x-slot name="header"></x-slot> --}}
 
-    <div class="py-8">
+    <div class="py-8 bg-gray-300 min-h-screen">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+            {{-- Tulisan Kelola Challenge --}}
+            <h1 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+                Kelola Challenge
+            </h1>
             
             {{-- Tombol Buat Challenge --}}
             <div class="mb-6 flex justify-end">
@@ -17,7 +21,7 @@
             @if($challenges->count())
                 <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     @foreach($challenges as $c)
-                        <div class="bg-white border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between">
+                        <div class="bg-gray-50 border border-gray-200 rounded-lg shadow-md hover:shadow-lg transition duration-200 p-5 flex flex-col justify-between">
                             
                             {{-- Judul dan Status --}}
                             <div>

@@ -1,77 +1,97 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-2xl text-gray-900">Manajemen Pengguna</h2>
-    </x-slot>
-
+    {{-- Header bawaan tetap dihapus untuk menghindari background putih --}}
     
-    <div class="min-h-screen py-12 bg-gradient-to-br from-gray-200 via-white to-gray-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-         
-            <div class="bg-white shadow-md sm:rounded-lg overflow-hidden">
-                <div class="overflow-x-auto">
+    <div class="min-h-screen bg-gray-900 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-                    <table class="min-w-full divide-y divide-gray-300">
-                        <thead class="bg-gray-200">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Nama</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Email</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Role</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Status</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Aksi</th>
-                            </tr>
-                        </thead>
+            <h1 class="text-3xl font-bold text-gray-100 mb-8 text-center">
+                Manajemen Pengguna
+            </h1>
 
-                        <tbody class="bg-white divide-y divide-gray-200">
-                            @foreach($users as $u)
-                                <tr class="hover:bg-gray-50 transition-colors duration-200">
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-900">{{ $u->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ $u->email }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-700">{{ ucfirst($u->role) }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($u->role === 'curator')
-                                            <span class="px-2 py-1 rounded text-sm font-medium 
-                                                {{ $u->status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
-                                                {{ $u->status }}
-                                            </span>
-                                        @else
-                                            <span class="text-gray-400">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap flex flex-wrap gap-2">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                @foreach($users as $u)
+                    <div class="bg-gray-800 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-gray-700">
+                        
+                        <div class="bg-gray-700 h-24 relative">
+                            <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2">
+                                <div class="w-24 h-24 bg-gray-800 rounded-full shadow flex items-center justify-center border-4 border-gray-700 overflow-hidden">
+                                    @if($u->avatar && file_exists(storage_path('app/public/avatars/' . $u->avatar)))
+                                        <img src="{{ asset('storage/avatars/' . $u->avatar) }}" 
+                                             alt="{{ $u->name }}" 
+                                             class="w-full h-full object-cover">
+                                    @else
+                                        <span class="text-4xl font-bold text-gray-200">
+                                            {{ strtoupper(substr($u->name, 0, 1)) }}
+                                        </span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
 
-                                       
-                                        <a href="{{ route('admin.users.show', $u) }}" 
-                                           class="px-3 py-1 bg-gray-300 text-gray-900 rounded hover:bg-gray-400 transition-colors">
-                                            Detail
-                                        </a>
+                        <div class="pt-16 pb-6 px-6">
 
-                                       
-                                        @if($u->role === 'curator' && $u->status === 'pending')
-                                            <form method="POST" action="{{ route('admin.users.approve', $u) }}" class="inline">
-                                                @csrf @method('PATCH')
-                                                <button type="submit" class="px-3 py-1 bg-green-200 text-green-800 rounded hover:bg-green-300 transition-colors">
-                                                    Setujui
-                                                </button>
-                                            </form>
-                                        @endif
+                            <h3 class="text-xl font-bold text-gray-100 text-center mb-1">
+                                {{ $u->name }}
+                            </h3>
 
-                                        
-                                        @if($u->id !== auth()->id() && $u->role !== 'admin')
-                                            <form method="POST" action="{{ route('admin.users.destroy', $u) }}" class="inline">
-                                                @csrf @method('DELETE')
-                                                <button type="submit" class="px-3 py-1 text-red-600 rounded hover:bg-red-100 transition-colors"
-                                                    onclick="return confirm('Hapus pengguna ini?')">
-                                                    Hapus
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
+                            <p class="text-sm text-gray-400 text-center mb-4 truncate">
+                                {{ $u->email }}
+                            </p>
 
-                </div>
+                            <div class="flex justify-center mb-3">
+                                <span class="px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wide
+                                    {{ $u->role === 'admin' ? 'bg-red-700 text-red-100' : ($u->role === 'curator' ? 'bg-indigo-700 text-indigo-100' : 'bg-gray-600 text-gray-200') }}">
+                                    {{ ucfirst($u->role) }}
+                                </span>
+                            </div>
+
+                            <div class="flex justify-center mb-6">
+                                @if($u->role === 'curator')
+                                    <span class="px-4 py-1 rounded-full text-sm font-medium
+                                        {{ $u->status === 'approved' ? 'bg-green-700 text-green-100' : 'bg-yellow-700 text-yellow-100' }}">
+                                        <span class="inline-block w-2 h-2 rounded-full mr-2
+                                            {{ $u->status === 'approved' ? 'bg-green-400' : 'bg-yellow-400' }}"></span>
+                                        {{ ucfirst($u->status) }}
+                                    </span>
+                                @else
+                                    <span class="text-gray-500 text-sm">No Status</span>
+                                @endif
+                            </div>
+
+ 
+                            <hr class="my-4 border-gray-600">
+                            <div class="space-y-2">
+                                <a href="{{ route('admin.users.show', $u) }}" 
+                                   class="block w-full px-4 py-2 bg-gray-600 text-gray-100 text-center rounded-lg hover:bg-gray-500 transition-all duration-200 font-medium shadow-md hover:shadow-lg">
+                                    Detail
+                                </a>
+                                @if($u->role === 'curator' && $u->status === 'pending')
+                                    <form method="POST" action="{{ route('admin.users.approve', $u) }}">
+                                        @csrf @method('PATCH')
+                                        <button type="submit" 
+                                                class="block w-full px-4 py-2 bg-green-600 text-green-100 text-center rounded-lg hover:bg-green-500 transition-all duration-200 font-medium shadow-md hover:shadow-lg">
+                                            Setujui
+                                        </button>
+                                    </form>
+                                @endif
+                                @if($u->id !== auth()->id() && $u->role !== 'admin')
+                                    <form method="POST" action="{{ route('admin.users.destroy', $u) }}">
+                                        @csrf @method('DELETE')
+                                        <button type="submit" 
+                                                onclick="return confirm('Hapus pengguna ini?')"
+                                                class="block w-full px-4 py-2 bg-gray-800 border-2 border-red-600 text-red-400 text-center rounded-lg hover:bg-red-900 hover:border-red-500 transition-all duration-200 font-medium">
+                                            Hapus
+                                        </button>
+                                    </form>
+                                @endif
+
+                            </div>
+
+                        </div>
+                    </div>
+                @endforeach
+
             </div>
 
         </div>

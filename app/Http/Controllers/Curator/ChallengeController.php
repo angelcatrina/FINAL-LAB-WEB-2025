@@ -134,7 +134,7 @@ public function selectWinners(Challenge $challenge)
             abort(403, 'Tidak diizinkan');
         }
         if (now()->lt($challenge->end_date)) {
-            aborft(403, 'Challenge belum berakhir');
+            abort(403, 'Challenge belum berakhir');
         }
 
         $winners = $request->input('winners', []);
@@ -155,26 +155,29 @@ public function selectWinners(Challenge $challenge)
                          ->with('success', 'Pemenang berhasil diumumkan!');
     }
 
-    public function announceWinners($challengeId)
+   public function announceWinners(Challenge $challenge)
 {
+    $challenge->is_announced = true;
+    $challenge->save();
 
-    $challenge = \App\Models\Challenge::with('submissions')->findOrFail($challengeId);
+    
+    $challenge->submissions()
+              ->whereNotNull('winner_position')
+              ->update(['is_winner' => true]);
 
-    $winners = $challenge->submissions
-                ->where('is_winner', true)
-                ->sortBy('winner_position');
+    return redirect()->back()->with('success', 'Pemenang berhasil diumumkan!');
+}
 
-    if ($winners->count() === 0) {
-        return back()->with('error', 'Tidak ada pemenang yang dipilih.');
-    }
 
-    $challenge->update([
-        'is_announced' => true,
-    ]);
+public function show(Challenge $challenge)
+{
+    
+    $submissions = $challenge->submissions()->with('artwork.user')->get();
 
-    return redirect()
-        ->route('curator.submissions.index')
-        ->with('success', 'Pemenang berhasil diumumkan!');
+   
+    $winners = $submissions->where('is_winner', true)->sortBy('winner_position');
+
+    return view('challenges.show', compact('challenge', 'submissions', 'winners'));
 }
 
 

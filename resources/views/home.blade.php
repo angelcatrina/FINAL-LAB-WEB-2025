@@ -3,7 +3,7 @@
     <div class="py-8 min-h-screen 
             bg-gradient-to-b from-gray-300 via-white to-gray-400">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Search & Filter -->
+           
             <div class="bg-white p-6 rounded-lg shadow mb-8">
                 <form method="GET" class="flex flex-col md:flex-row gap-4">
 
@@ -21,7 +21,7 @@
                border border-gray-300 focus:ring-blue-500 focus:border-blue-500">
     <option value="">Semua Kategori</option>
     @foreach($categories as $cat)
-        <option value="{{ $cat->id }}" {{ request('category') == $cat->id ? 'selected' : '' }}>
+        <option value="{{ $cat->id }}" {{ (int)request('category') === $cat->id ? 'selected' : '' }}>
             {{ $cat->name }}
         </option>
     @endforeach
@@ -32,11 +32,10 @@
                hover:from-blue-600 hover:to-blue-700 transition">
     Cari
 </button>
-
                 </form>
             </div>
 
-            {{-- ANNOUNCED WINNERS --}}
+            
             @if(isset($announcedChallenges) && $announcedChallenges->count() > 0)
                 <h2 class="text-2xl font-bold mb-4 text-gray-800">🏆 Pemenang Challenge</h2>
 
@@ -45,7 +44,7 @@
                         <div class="bg-white shadow rounded-lg p-5 border border-gray-200
                                     transform transition-all duration-500 ease-out hover:scale-105 hover:shadow-2xl">
                             <h3 class="font-bold text-xl mb-2 text-gray-800">
-                                🎯 {{ $challenge->title }}
+                                {{ $challenge->title }}
                             </h3>
 
                             <p class="text-sm text-gray-600 mb-4">{{ $challenge->rules }}</p>
