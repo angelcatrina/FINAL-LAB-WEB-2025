@@ -98,7 +98,7 @@ bash git clone https://github.com/angelcatrina/FINAL-LAB-WEB-2025
 2. *Masuk ke Direktori Proyek:* bash cd Manajemen-Perpustakaan 
 3. *Instal Dependensi Laravel:* bash composer install 
 3. *ketik "kode ." lalu masuk ke .env dan ubah bagian DB_DATABASE seperti berikut :
-* bash DB_CONNECTION=mysql
+*bash DB_CONNECTION=mysql
  DB_HOST=127.0.0.1 DB_PORT=3306 
  DB_DATABASE=artshowcase_db 
  DB_USERNAME=root 
