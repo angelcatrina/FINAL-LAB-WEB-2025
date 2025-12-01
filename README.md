@@ -94,7 +94,7 @@ Fitur utama meliputi pengelolaan karya seni, interaksi (likes, comments, favorit
 
 ### Langkah-Langkah Penggunaan 
 1. *Clone Repositori:* 
-bash git clone https://github.com/Mirnafebriasari/Manajemen-Perpustakaan.git 
+bash git clone https://github.com/angelcatrina/FINAL-LAB-WEB-2025
 2. *Masuk ke Direktori Proyek:* bash cd Manajemen-Perpustakaan 
 3. *Instal Dependensi Laravel:* bash composer install 
 3. *ketik "kode ." lalu masuk ke .env dan ubah bagian DB_DATABASE seperti berikut :
