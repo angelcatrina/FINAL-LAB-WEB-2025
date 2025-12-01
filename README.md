@@ -1,168 +1,144 @@
-Art Showcase Platform
+# Art Showcase Platform
 
-Individual Project 2 – Web Application
+Art Showcase Platform adalah aplikasi web untuk memamerkan karya seni digital, di mana para kreator (Member) dapat membangun portofolio, berinteraksi, serta mengikuti challenge yang dibuat oleh Curator. Sistem ini menyediakan peran berbeda seperti Admin, Member, Curator, dan Public User dengan dashboard serta akses yang disesuaikan.
 
-Overview:
-Art Showcase Platform adalah platform untuk memamerkan karya seni digital, yang berfungsi sebagai wadah bagi kreator (Member) untuk menampilkan portofolio mereka dan bagi pengguna lain untuk menemukan inspirasi. Sistem ini menghubungkan kreator dengan audiens melalui fitur interaktif seperti likes, komentar, dan favorites. Platform mendukung empat peran utama: Admin, Member (Kreator), Curator, dan Public User (Guest), dengan akses dan fitur yang disesuaikan untuk setiap level.
+Fitur utama meliputi pengelolaan karya seni, interaksi (likes, comments, favorites), pelaporan konten, manajemen challenge, dan moderasi oleh Admin. Sistem juga didukung tampilan modern, navigasi jelas, dan alur pengguna yang mudah dipahami.
 
-Platform ini juga menekankan keamanan melalui sistem pelaporan karya yang dilaporkan oleh Member dan ditinjau oleh Admin.
+-------------------------------------------------
 
-Table of Contents
-1.User Roles
-2.CMS Modules
-3.Layout Requirements
-4.Advanced Features (Optional)
-5..Technologies
-6.Setup & Installation
-7.Usage
+## Rincian Alur Aplikasi
+1. *Login / Registrasi*
+- Admin login menggunakan akun bawaan (seeded).
+- Member dan Curator dapat mendaftar melalui halaman register.
+- Akun Curator akan berstatus Pending sampai disetujui oleh Admin.
+- Public User (guest) bisa menjelajahi galeri tanpa login.
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------
 
+2. *Dashboard Berdasarkan Role*
+*Admin*
+- Mengelola pengguna (Admin, Member, Curator).
+- Mengelola kategori karya.
+- Menangani laporan konten.
+- Melihat statistik platform.
 
-User Roles
-1. Admin
--Mengelola seluruh platform dengan akses penuh.
--Moderasi konten: Meninjau dan mengambil tindakan (approve/delete) terhadap karya atau komentar yang dilaporkan.
--Manajemen pengguna: CRUD Member, Curator, Admin lainnya.
--Manajemen kategori: CRUD kategori karya (Fotografi, UI/UX, 3D Art, dll.).
--Melihat data statistik platform.
+*Member (Creator)*
+- Mengunggah, mengedit, dan menghapus karya.
+- Mengelola profil kreator.
+- Memberi like, comment, favorites.
+- Melapor karya lain.
+- Mengikuti challenge dan mengirim karya.
 
+*Curator*
+- Membuat dan mengelola challenge.
+- Melihat submission peserta.
+- Memilih pemenang challenge.
+- Mengelola informasi challenge.
 
-2.Member (User/Creator)
--Unggah dan kelola karya (desain, ilustrasi, fotografi, tulisan, dll.).
--Membangun dan mengelola halaman profil pribadi.
--Interaksi dengan karya lain: like, comment, favorites.
--Melaporkan karya yang melanggar aturan.
--Mengikuti challenge dengan submit karya.
-
-3.Curator
--Membuat dan mengelola event atau challenge.
--Melihat galeri partisipan dan karya yang di-submit.
--Memilih pemenang challenge setelah selesai.
--Akun Curator harus disetujui Admin sebelum bisa mengakses dashboard.
-
-4.Public User (Guest)
--Menjelajahi karya seni, profil kreator, dan challenge.
--Harus login/register untuk berinteraksi lebih lanjut (like, comment, favorites, submit karya).
+-*Public User (Guest)*-
+- Melihat galeri karya, profil kreator, dan challenge aktif.
+- Harus login untuk berinteraksi.
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+-----------------------
 
+3. *Manajemen Karya (Member)*
+- CRUD karya: Judul, deskripsi, kategori, tags, file upload.
+- Galeri pribadi dalam dashboard Member.
 
-CMS Modules
-1. Artwork Management (Member)
-- List, Create, Edit, Delete karya milik sendiri.
-- Field penting: Judul, Deskripsi, Kategori, Tags, File upload.
+-------------------------
 
-2. User Management (Admin)
-- View users (Admin, Member, Curator).
-- Delete user (kecuali diri sendiri).
-- Moderation handling: meninjau karya yang dilaporkan.
+4. *Interaksi (Member)*
+- Like / Unlike karya.
+- Tambahkan karya ke Favorites.
+- Beri komentar.
+- Report konten (SARA, Plagiarisme, Konten Tidak Pantas).
 
-3. Interaction Management (Member)
-- Like/Unlike, Favorites, Comment, Report content.
-- Report fields: Alasan laporan (SARA, Plagiat, Konten Tidak Pantas).
+-----
 
-4. Profile Management (Member)
-- Kelola info publik: Nama tampilan, foto profil, bio, tautan eksternal.
--Kelola info privat: Email dan password.
+5. *Challenge System (Curator)*
+- Membuat challenge baru.
+- Mengelola dan menampilkan submission.
+- Memilih pemenang di akhir challenge.
+- Menampilkan pemenang di halaman challenge.
 
-5. Challenge Management (Curator)
-- List, Create, Edit, Delete challenge.
-- View submissions dan select winners setelah challenge berakhir.
+-----------
 
-6. Moderation Management (Admin)
-- Manage Categories (CRUD kategori).
-- Moderation Queue: Dismiss report atau Take down konten.
+6. *Moderation System (Admin)*
+- Menangani konten yang dilaporkan pengguna.
+- Approve / Dismiss laporan.
+- Menghapus karya yang melanggar.
 
+------
 
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-Layout Requirements
-1. Login/Register Page
-- Login untuk Admin, Member, Curator.
-- Register hanya untuk Member dan Curator (status Pending untuk Curator baru).
-
-2. Homepage (Public User)
-- Galeri karya featured, populer, terbaru.
+7. *Halaman Tampilan Utama*
+- Homepage menampilkan:
+- Karya featured/popular.
+- Karya terbaru.
 - Daftar challenge aktif.
-- Search bar dan filter kategori.
+- Pencarian dan filter kategori.
 
-3. Homepage (Member)
-- Sama dengan Public User, tombol interaksi aktif (like, comment, favorites).
-
-4. Artwork Details Page
-- Detail karya: judul, deskripsi, kreator, tanggal upload.
-- Tombol interaksi untuk Member; Guest hanya bisa melihat.
-
-5. Creator Profile Page
-- Info kreator: foto profil, nama tampilan, bio, tautan eksternal.
-- Galeri karya kreator.
-
-6. Member Dashboard
-- Profile Management, My Artworks, My Favorites, My Submissions.
-
-7. Pending Curator Page
-- Informasi akun Curator sedang ditinjau oleh Admin.
-
-8. Curator Dashboard
-- Challenge Management, Manage Submissions, Select Winners.
-
-9. Challenge Details Page
-- Info challenge lengkap, galeri submission, pemenang, tombol submit karya untuk Member.
-
-10. Admin Dashboard
-- User Management, Category Management, Content Moderation.
+-----------
 
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+## Teknologi dan Tools
+
+- *XAMPP* — Server lokal yang menyediakan Apache, PHP, dan MySQL untuk menjalankan aplikasi. 
+- *Composer* — Dependency manager untuk menginstal dan mengelola paket Laravel.
+ - *Laravel* — Framework utama untuk pengembangan backend, routing, autentikasi, dan manajemen data. 
+ - *Visual Studio Code (VS Code)* — Code editor utama untuk menulis dan mengelola proyek. 
+ - *GitHub* — Platform untuk penyimpanan kode, version control, dan kolaborasi.
+
+----------------------
 
 
-Advanced Features (Optional)
-- Following system: Member dapat follow kreator lain.
+### Langkah-Langkah Penggunaan 
+1. *Clone Repositori:* 
+bash git clone https://github.com/Mirnafebriasari/Manajemen-Perpustakaan.git 
+2. *Masuk ke Direktori Proyek:* bash cd Manajemen-Perpustakaan 
+3. *Instal Dependensi Laravel:* bash composer install 
+3. *ketik "kode ." lalu masuk ke .env dan ubah bagian DB_DATABASE seperti berikut :
+* bash DB_CONNECTION=mysql
+ DB_HOST=127.0.0.1 DB_PORT=3306 
+ DB_DATABASE=artshowcase_db 
+ DB_USERNAME=root 
+ DB_PASSWORD= 
+ 
+ Jika nama filenya hanya ada .env.example maka ubah dulu menjadi .env lalu ubah isinya bagian DB_DATABASE seperti di atas. 
+ 4. *Buka XAMPP lalu start MySQL* 
+ 5. *Masuk ke VS Code lalu buka terminal dan jalankan migrasi dan seeder database:* 
+ bash 
+ php artisan migrate --seed
 
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+  6. *Jalankan Server Aplikasi:* 
+  bash 
+  php artisan serve 
+  
+  7. *Install dependensi npm:* 
+  bash 
+  npm install 
+  
+  8. *Jalankan Vite pada terminal lain:* 
+  bash 
+  npm run dev 
+  
+  9. *Jalankan perintah ini di root folder proyek Laravel fungsinya untuk membuat dan menaruh APP_KEY baru ke dalam file .env.:* 
+  bash 
+  php artisan key:generate 
+  
+  10 *Jalankan symlink untuk menghubungkan folder penyimpanan file pribadi ke folder yang dapat diakses publik oleh browser. :* 
+  bash php 
+  artisan storage:link 
+  Akses aplikasi di: http://127.0.0.1:8000/
 
-Technologies
-- Backend: Laravel (PHP)
-- Frontend: Blade Templates, Tailwind CSS / Bootstrap
-- Database: MySQL / MariaDB
-- Authentication: Laravel Auth
-- File Storage: Local or Cloud Storage (gambar/media)
+----------------------
 
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-
-Setup & Installation
-1. Clone repository:
-git clone <repository-url>
-cd art-showcase-platform
-
-2. Install dependencies:
-composer install
-npm install
-npm run dev
-
-3. Copy file environment dan konfigurasi database:
-cp .env.example .env
-php artisan key:generate
-
-Sesuaikan konfigurasi database di .env.
-
-4. Jalankan migration & seed:
-php artisan migrate --seed
-
-
-5. Jalankan server lokal:
-php artisan serve
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-Usage
-- Buka http://localhost:8000 di browser.
-- Login atau register sebagai Member/Curator/Admin.
-- Eksplor galeri, unggah karya, ikut challenge, atau moderasi konten sesuai peran.
+*Kredensial Penting (Setelah Seeder)*
+Setelah menjalankan seeder, sistem akan memiliki:
+*Admin Utama*
+Cek file:
+- database/seeders/AdminSeeder.php
+- Di dalamnya terdapat email & password Admin bawaan.
+- Akun Member / Curator
+- Member dan Curator dapat mendaftar langsung dari halaman register.
+- Curator akan berstatus Pending sampai disetujui admin.
