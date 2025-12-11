@@ -25,7 +25,7 @@ class ArtworkSeeder extends Seeder
             'title' => 'Fotografi Alam',
             'description' => 'Foto alam yang indah',
             'file_path' => 'alam.jpg',
-            'user_id' => 1,
+           'user_id' => 1,
             'category_id' => 3,
             'tags' => 'foto,alam,nature',
         ]);

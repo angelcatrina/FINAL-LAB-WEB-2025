@@ -202,6 +202,16 @@ Route::middleware(['auth', 'curator'])
              ->name('submissions.index');
         Route::post('submissions/{submission}/winner', [App\Http\Controllers\Curator\SubmissionController::class, 'setWinner'])
              ->name('submissions.set_winner');
+
+    
+        Route::get('/dashboard', [CuratorController::class, 'dashboard'])->name('dashboard');
+
+      
+        Route::get('submissions', [SubmissionController::class, 'index'])
+            ->name('submissions.index');
+
+        Route::post('submissions/{submission}/winner', [SubmissionController::class, 'setWinner'])
+            ->name('submissions.set_winner'); 
 });
 
 Route::get('/challenges/{challenge}', [ChallengeSubmissionController::class, 'show'])
@@ -284,8 +294,20 @@ Route::middleware(['auth', 'role:curator'])
 
         Route::get('/dashboard', [CuratorController::class, 'dashboard'])->name('dashboard');
         Route::resource('challenges', App\Http\Controllers\Curator\ChallengeController::class);
+         Route::resource('submissions', SubmissionController::class)->only(['index', 'update']);
+         
+
+     
+        Route::get('/dashboard', [CuratorController::class, 'dashboard'])->name('dashboard');
+
+        Route::get('submissions', [SubmissionController::class, 'index'])
+            ->name('submissions.index');
+
+        Route::post('submissions/{submission}/winner', [SubmissionController::class, 'setWinner'])
+            ->name('submissions.set_winner'); 
     });
 
+    
     
 
 require __DIR__.'/auth.php';
